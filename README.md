@@ -4,7 +4,6 @@ Welcome to the **Cute Words Piano** — a charming, pastel-themed virtual piano 
 
 No music here — just pure cuteness and joy in every click. Perfect for lifting your mood or sharing smiles with friends! ☁️
 
----
 
 
 ---
