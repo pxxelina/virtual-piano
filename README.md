@@ -6,15 +6,6 @@ No music here — just pure cuteness and joy in every click. Perfect for lifting
 
 ---
 
-## 🧁 Try It Live!
-
-👉 Click here to open the piano in your browser:  
-**[https://pxxelina.github.io/virtual_piano/](https://pxxelina.github.io/virtual_piano/)**
-
-If that link doesn't work, make sure:
-- The file `index.html` is in the **root** of the repo
-- Your GitHub Pages is turned on (under **Settings > Pages**)
-- Your repo is public
 
 ---
 
