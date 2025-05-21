@@ -24,13 +24,6 @@ No music here — just pure cuteness and joy in every click. Perfect for lifting
 
 ---
 
-## 📁 Project Structure
-
-```plaintext
-virtual_piano/
-├── index.html   ← main file
-├── style.css    ← all the cuteness
-└── script.js    ← makes the keys work
 
 
 
