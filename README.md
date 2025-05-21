@@ -4,7 +4,7 @@ Welcome to the **Cute Words Piano**, a super adorable virtual piano that sparkle
 
 Instead of playing sounds, this magical piano sends you little bursts of joy in the form of cute, happy words! 🌈
 
-![cute piano](https://emojicombos.com/wp-content/uploads/2021/08/kawaii-emojis.png)
+
 
 ---
 
