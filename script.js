@@ -1,4 +1,4 @@
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const keys = document.querySelectorAll('.key');
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const keyMap = {
@@ -82,80 +82,52 @@
         'A3': 1760.00
     };
     
-    // Create floating hearts
-    function createHearts() {
-        const heartsContainer = document.getElementById('hearts-container');
-        const numberOfHearts = 15;
+    // Create floating particles
+    function createParticles() {
+        const particlesContainer = document.getElementById('floating-particles');
+        const numberOfParticles = 8;
         
-        for (let i = 0; i < numberOfHearts; i++) {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
+        for (let i = 0; i < numberOfParticles; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
             
             const left = Math.random() * 100;
-            const size = Math.random() * 15 + 10;
             const animationDuration = Math.random() * 10 + 15;
             const delay = Math.random() * 20;
             
-            heart.style.left = `${left}%`;
-            heart.style.bottom = '-50px';
-            heart.style.width = `${size}px`;
-            heart.style.height = `${size}px`;
-            heart.style.animationDuration = `${animationDuration}s`;
-            heart.style.animationDelay = `${delay}s`;
+            particle.style.left = `${left}%`;
+            particle.style.animationDuration = `${animationDuration}s`;
+            particle.style.animationDelay = `${delay}s`;
             
-            heartsContainer.appendChild(heart);
+            particlesContainer.appendChild(particle);
         }
     }
     
-    // Create floating musical notes
-    function createMusicalNotes() {
-        const notesContainer = document.getElementById('musical-notes-container');
-        const musicalSymbols = ['♪', '♫', '♬', '♩', '♭', '♯', '𝄞'];
-        const numberOfNotes = 12;
-        
-        for (let i = 0; i < numberOfNotes; i++) {
-            const note = document.createElement('div');
-            note.classList.add('musical-note');
-            note.textContent = musicalSymbols[Math.floor(Math.random() * musicalSymbols.length)];
-            
-            const left = Math.random() * 100;
-            const size = Math.random() * 20 + 20;
-            const animationDuration = Math.random() * 8 + 12;
-            const delay = Math.random() * 15;
-            
-            note.style.left = `${left}%`;
-            note.style.fontSize = `${size}px`;
-            note.style.animationDuration = `${animationDuration}s`;
-            note.style.animationDelay = `${delay}s`;
-            
-            notesContainer.appendChild(note);
-        }
-    }
-    
-    // Create sparkle effect
-    function createSparkle(element) {
-        const sparkle = document.createElement('div');
-        sparkle.classList.add('sparkle');
+    // Create subtle ripple effect
+    function createRipple(element) {
+        const ripple = document.createElement('div');
+        ripple.classList.add('ripple');
         
         const rect = element.getBoundingClientRect();
-        const x = Math.random() * rect.width;
-        const y = Math.random() * rect.height;
+        const size = Math.max(rect.width, rect.height);
+        const x = rect.width / 2 - size / 2;
+        const y = rect.height / 2 - size / 2;
         
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
         
-        element.appendChild(sparkle);
+        element.appendChild(ripple);
         
         setTimeout(() => {
-            sparkle.remove();
+            ripple.remove();
         }, 600);
     }
     
     // Initialize background elements
-    createHearts();
-    createMusicalNotes();
+    createParticles();
     
-    // Function to play a note with enhanced sound
+    // Function to play a note
     function playNote(note) {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -218,7 +190,7 @@
             const note = key.getAttribute('data-note');
             playNote(note);
             key.classList.add('active');
-            createSparkle(key);
+            createRipple(key);
         });
         
         key.addEventListener('mouseup', () => {
@@ -242,7 +214,7 @@
             if (keyElement && !keyElement.classList.contains('active')) {
                 playNote(note);
                 keyElement.classList.add('active');
-                createSparkle(keyElement);
+                createRipple(keyElement);
             }
         }
     });
@@ -272,16 +244,10 @@
         });
     });
     
-    const toggleHeartsBtn = document.getElementById('toggle-hearts');
-    toggleHeartsBtn.addEventListener('click', () => {
-        const heartsContainer = document.getElementById('hearts-container');
-        heartsContainer.style.display = heartsContainer.style.display === 'none' ? 'block' : 'none';
-    });
-    
-    const toggleNotesBtn = document.getElementById('toggle-notes');
-    toggleNotesBtn.addEventListener('click', () => {
-        const notesContainer = document.getElementById('musical-notes-container');
-        notesContainer.style.display = notesContainer.style.display === 'none' ? 'block' : 'none';
+    const toggleParticlesBtn = document.getElementById('toggle-particles');
+    toggleParticlesBtn.addEventListener('click', () => {
+        const particlesContainer = document.getElementById('floating-particles');
+        particlesContainer.style.display = particlesContainer.style.display === 'none' ? 'block' : 'none';
     });
     
     const playDemoBtn = document.getElementById('play-demo');
@@ -303,7 +269,7 @@
             if (keyElement) {
                 keyElement.classList.add('active');
                 playNote(note);
-                createSparkle(keyElement);
+                createRipple(keyElement);
                 
                 await new Promise(resolve => setTimeout(resolve, 400));
                 keyElement.classList.remove('active');
