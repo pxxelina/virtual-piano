@@ -11,14 +11,22 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     color: white;
     overflow-x: hidden;
     position: relative;
 }
 
-/* Floating Hearts Background */
-.hearts-container {
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Beautiful Background Elements */
+.background-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -29,14 +37,62 @@ body {
     pointer-events: none;
 }
 
+.gradient-orbs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.gradient-orbs::before,
+.gradient-orbs::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    animation: float-orb 20s ease-in-out infinite;
+}
+
+.gradient-orbs::before {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.gradient-orbs::after {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #a8edea 0%, #fed6e3 100%);
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 10s;
+}
+
+@keyframes float-orb {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-30px) rotate(120deg); }
+    66% { transform: translateY(30px) rotate(240deg); }
+}
+
+/* Floating Hearts Background */
+.hearts-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 .heart {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #FFC0CB; /* Baby pink */
+    background-color: #FFB6C1; /* Light pink */
     transform: rotate(45deg);
-    opacity: 0.6;
-    animation: float 15s linear infinite;
+    opacity: 0.7;
+    animation: float-heart 15s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.5));
 }
 
 .heart:before,
@@ -44,7 +100,7 @@ body {
     content: '';
     width: 20px;
     height: 20px;
-    background-color: #FFC0CB; /* Baby pink */
+    background-color: #FFB6C1;
     border-radius: 50%;
     position: absolute;
 }
@@ -59,16 +115,16 @@ body {
     left: -10px;
 }
 
-@keyframes float {
+@keyframes float-heart {
     0% {
         transform: rotate(45deg) translateY(0) translateX(0);
         opacity: 0;
     }
     10% {
-        opacity: 0.7;
+        opacity: 0.8;
     }
     90% {
-        opacity: 0.7;
+        opacity: 0.8;
     }
     100% {
         transform: rotate(45deg) translateY(-100vh) translateX(20px);
@@ -76,32 +132,83 @@ body {
     }
 }
 
+/* Musical Notes Background */
+.musical-notes-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.musical-note {
+    position: absolute;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    animation: float-note 12s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+@keyframes float-note {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
     z-index: 1;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 3rem;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
 }
 
 .instructions {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 1rem;
-    color: #ccc;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.6;
 }
 
 .piano-container {
     overflow-x: auto;
     width: 100%;
     padding: 20px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .piano {
@@ -110,37 +217,46 @@ h1 {
     margin: 40px auto;
     height: 200px;
     min-width: max-content;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
 }
 
 .key {
     position: relative;
     cursor: pointer;
-    transition: all 0.1s ease;
+    transition: all 0.15s ease;
+    user-select: none;
 }
 
 .white-key {
     width: 60px;
     height: 200px;
-    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
-    border: 1px solid #ccc;
-    border-radius: 0 0 5px 5px;
+    background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 50%, #e8e8e8 100%);
+    border: 2px solid #ddd;
+    border-radius: 0 0 8px 8px;
     color: #333;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
     font-weight: bold;
+    font-size: 14px;
     z-index: 1;
-    margin: 0 2px;  /* Small margin between white keys */
+    margin: 0 1px;
     position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.white-key:hover {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e8e8e8 50%, #d8d8d8 100%);
+    transform: translateY(1px);
 }
 
 .black-key {
     width: 40px;
-    height: 120px;
-    background: linear-gradient(to bottom, #333 0%, #000 100%);
-    border: 1px solid #000;
-    border-radius: 0 0 5px 5px;
+    height: 130px;
+    background: linear-gradient(to bottom, #2c2c2c 0%, #1a1a1a 50%, #000000 100%);
+    border: 2px solid #000;
+    border-radius: 0 0 6px 6px;
     position: absolute;
     z-index: 2;
     color: white;
@@ -149,82 +265,57 @@ h1 {
     justify-content: center;
     padding-bottom: 10px;
     font-weight: bold;
+    font-size: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.black-key:hover {
+    background: linear-gradient(to bottom, #3c3c3c 0%, #2a2a2a 50%, #111111 100%);
+    transform: translateY(1px);
 }
 
 .white-key.active {
-    background: linear-gradient(to bottom, #ddd 0%, #ccc 100%);
-    transform: translateY(2px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
+    transform: translateY(3px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .black-key.active {
-    background: linear-gradient(to bottom, #222 0%, #111 100%);
-    transform: translateY(2px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-/* Positions for black keys - these will be overridden by JavaScript */
-.key-C\# {
-    left: 40px;
-}
-
-.key-D\# {
-    left: 104px;
-}
-
-.key-F\# {
-    left: 232px;
-}
-
-.key-G\# {
-    left: 296px;
-}
-
-.key-A\# {
-    left: 360px;
-}
-
-.key-C\#2 {
-    left: 488px;
-}
-
-.key-D\#2 {
-    left: 552px;
-}
-
-.key-F\#2 {
-    left: 680px;
-}
-
-.key-G\#2 {
-    left: 744px;
-}
-
-.key-A\#2 {
-    left: 808px;
+    background: linear-gradient(to bottom, #1c1c1c 0%, #0a0a0a 50%, #000000 100%);
+    transform: translateY(3px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .controls {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    gap: 20px;
+    margin-top: 30px;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
 .control-btn {
-    padding: 10px 20px;
-    background: #0f3460;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 1rem;
-    transition: all 0.2s ease;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    backdrop-filter: blur(10px);
 }
 
 .control-btn:hover {
-    background: #16213e;
+    background: linear-gradient(45deg, #764ba2, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.control-btn:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -234,7 +325,11 @@ h1 {
     }
     
     h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+    }
+    
+    .instructions {
+        font-size: 1rem;
     }
 }
 
@@ -245,10 +340,35 @@ h1 {
     }
     
     h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    .instructions {
+        font-size: 0.9rem;
+    }
+    
+    .container {
+        margin: 10px;
+        padding: 15px;
     }
 }
 
 .hide-label {
     color: transparent !important;
+}
+
+/* Sparkle effect when keys are pressed */
+@keyframes sparkle {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1) rotate(180deg); opacity: 0; }
+}
+
+.sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #fff 0%, #ffd700 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkle 0.6s ease-out forwards;
 }
