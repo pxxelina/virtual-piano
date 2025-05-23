@@ -103,6 +103,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Create hearts when playing
+    function createPlayingHeart(x, y) {
+        const heartsContainer = document.getElementById('playing-hearts-container');
+        const heart = document.createElement('div');
+        heart.classList.add('playing-heart');
+        
+        // Position the heart near the key that was pressed
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        
+        // Random size variation
+        const size = Math.random() * 5 + 10;
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        
+        // Set size for pseudo-elements
+        heart.style.setProperty('--size', `${size}px`);
+        
+        // Random animation duration
+        const animationDuration = Math.random() * 1 + 2;
+        heart.style.animationDuration = `${animationDuration}s`;
+        
+        // Random horizontal drift
+        const drift = Math.random() * 60 - 30;
+        heart.style.setProperty('--drift', `${drift}px`);
+        
+        heartsContainer.appendChild(heart);
+        
+        // Remove heart after animation completes
+        setTimeout(() => {
+            heart.remove();
+        }, animationDuration * 1000);
+    }
+    
+    // Create multiple hearts when a key is pressed
+    function createHeartsForKey(element) {
+        const rect = element.getBoundingClientRect();
+        const numHearts = Math.floor(Math.random() * 3) + 1; // 1-3 hearts
+        
+        for (let i = 0; i < numHearts; i++) {
+            // Create hearts at random positions above the key
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top + Math.random() * (rect.height / 2);
+            
+            // Slight delay for each heart
+            setTimeout(() => {
+                createPlayingHeart(x, y);
+            }, i * 100);
+        }
+    }
+    
     // Create subtle ripple effect
     function createRipple(element) {
         const ripple = document.createElement('div');
@@ -184,6 +235,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('load', positionBlackKeys);
     window.addEventListener('resize', positionBlackKeys);
     
+    // Variable to track if hearts are enabled
+    let heartsEnabled = true;
+    
     // Add click event listeners to piano keys
     keys.forEach(key => {
         key.addEventListener('mousedown', () => {
@@ -191,6 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
             playNote(note);
             key.classList.add('active');
             createRipple(key);
+            
+            // Create floating hearts if enabled
+            if (heartsEnabled) {
+                createHeartsForKey(key);
+            }
         });
         
         key.addEventListener('mouseup', () => {
@@ -215,6 +274,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 playNote(note);
                 keyElement.classList.add('active');
                 createRipple(keyElement);
+                
+                // Create floating hearts if enabled
+                if (heartsEnabled) {
+                    createHeartsForKey(keyElement);
+                }
             }
         }
     });
@@ -244,10 +308,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    const toggleParticlesBtn = document.getElementById('toggle-particles');
-    toggleParticlesBtn.addEventListener('click', () => {
-        const particlesContainer = document.getElementById('floating-particles');
-        particlesContainer.style.display = particlesContainer.style.display === 'none' ? 'block' : 'none';
+    const toggleHeartsBtn = document.getElementById('toggle-hearts');
+    toggleHeartsBtn.addEventListener('click', () => {
+        heartsEnabled = !heartsEnabled;
+        toggleHeartsBtn.textContent = heartsEnabled ? 'Disable Hearts' : 'Enable Hearts';
     });
     
     const playDemoBtn = document.getElementById('play-demo');
@@ -271,6 +335,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 playNote(note);
                 createRipple(keyElement);
                 
+                // Create floating hearts if enabled
+                if (heartsEnabled) {
+                    createHeartsForKey(keyElement);
+                }
+                
                 await new Promise(resolve => setTimeout(resolve, 400));
                 keyElement.classList.remove('active');
                 await new Promise(resolve => setTimeout(resolve, 50));
@@ -281,3 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleLabelsBtn.disabled = false;
     });
 });
+  
+
+ 
