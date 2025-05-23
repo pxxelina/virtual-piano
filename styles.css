@@ -11,7 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     color: #2c3e50;
     overflow-x: hidden;
     position: relative;
@@ -34,9 +34,9 @@ body {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 177, 153, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(142, 199, 251, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 218, 224, 0.15) 0%, transparent 50%);
     animation: gentle-float 20s ease-in-out infinite;
 }
 
@@ -56,7 +56,7 @@ body {
     position: absolute;
     width: 4px;
     height: 4px;
-    background: rgba(120, 119, 198, 0.3);
+    background: rgba(255, 182, 193, 0.4);
     border-radius: 50%;
     animation: float-particle 15s linear infinite;
 }
@@ -67,13 +67,131 @@ body {
         opacity: 0;
     }
     10% {
-        opacity: 1;
+        opacity: 0.7;
     }
     90% {
-        opacity: 1;
+        opacity: 0.7;
     }
     100% {
         transform: translateY(-100px) translateX(50px);
+        opacity: 0;
+    }
+}
+
+/* Decorative Elements */
+.decorative-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+.circle-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    border-width: 2px;
+    animation: pulse 8s ease-in-out infinite;
+}
+
+.circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    right: 10%;
+    border-width: 1px;
+    animation: pulse 8s ease-in-out infinite reverse;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.05); opacity: 0.5; }
+}
+
+.decorative-line {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, rgba(255, 182, 193, 0.3), transparent);
+    height: 1px;
+}
+
+.line-1 {
+    width: 80%;
+    top: 30%;
+    left: 10%;
+    animation: fade 10s ease-in-out infinite;
+}
+
+.line-2 {
+    width: 60%;
+    bottom: 40%;
+    right: 10%;
+    animation: fade 10s ease-in-out infinite reverse;
+}
+
+@keyframes fade {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+}
+
+/* Hearts that appear when playing */
+.playing-hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.playing-heart {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #FFB6C1; /* Baby pink */
+    transform: rotate(45deg);
+    opacity: 0;
+    animation: float-playing-heart 3s ease-out forwards;
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+}
+
+.playing-heart:before,
+.playing-heart:after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-color: #FFB6C1;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.playing-heart:before {
+    top: -7.5px;
+    left: 0;
+}
+
+.playing-heart:after {
+    top: 0;
+    left: -7.5px;
+}
+
+@keyframes float-playing-heart {
+    0% {
+        transform: rotate(45deg) translateY(0) scale(0.2);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+        transform: rotate(45deg) translateY(0) scale(1);
+    }
+    100% {
+        transform: rotate(45deg) translateY(-100px) scale(0.5);
         opacity: 0;
     }
 }
@@ -240,8 +358,9 @@ h1 {
 
 .creator-name {
     font-weight: 500;
-    color: #495057;
+    color: #FFB6C1;
     padding: 0 4px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -303,8 +422,7 @@ h1 {
 .ripple {
     position: absolute;
     border-radius: 50%;
-    background: rgba(120, 119, 198, 0.3);
+    background: rgba(255, 182, 193, 0.3);
     pointer-events: none;
     animation: ripple 0.6s ease-out forwards;
 }
-
