@@ -103,6 +103,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Create background hearts
+    function createBackgroundHearts() {
+        const heartsContainer = document.getElementById('background-hearts-container');
+        const numberOfHearts = 15;
+        
+        for (let i = 0; i < numberOfHearts; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('background-heart');
+            
+            const left = Math.random() * 100;
+            const size = Math.random() * 15 + 10;
+            const animationDuration = Math.random() * 10 + 15;
+            const delay = Math.random() * 20;
+            const drift = Math.random() * 100 - 50;
+            
+            heart.style.left = `${left}%`;
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.animationDuration = `${animationDuration}s`;
+            heart.style.animationDelay = `${delay}s`;
+            heart.style.setProperty('--drift', `${drift}px`);
+            
+            // Set size for pseudo-elements
+            heart.style.setProperty('--size', `${size}px`);
+            
+            heartsContainer.appendChild(heart);
+        }
+    }
+    
     // Create hearts when playing
     function createPlayingHeart(x, y) {
         const heartsContainer = document.getElementById('playing-hearts-container');
@@ -114,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
         heart.style.top = `${y}px`;
         
         // Random size variation
-        const size = Math.random() * 5 + 10;
+        const size = Math.random() * 10 + 20;
         heart.style.width = `${size}px`;
         heart.style.height = `${size}px`;
         
@@ -122,11 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
         heart.style.setProperty('--size', `${size}px`);
         
         // Random animation duration
-        const animationDuration = Math.random() * 1 + 2;
+        const animationDuration = Math.random() * 1 + 3;
         heart.style.animationDuration = `${animationDuration}s`;
         
         // Random horizontal drift
-        const drift = Math.random() * 60 - 30;
+        const drift = Math.random() * 100 - 50;
         heart.style.setProperty('--drift', `${drift}px`);
         
         heartsContainer.appendChild(heart);
@@ -140,12 +169,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create multiple hearts when a key is pressed
     function createHeartsForKey(element) {
         const rect = element.getBoundingClientRect();
-        const numHearts = Math.floor(Math.random() * 3) + 1; // 1-3 hearts
+        const numHearts = Math.floor(Math.random() * 3) + 3; // 3-5 hearts
         
         for (let i = 0; i < numHearts; i++) {
             // Create hearts at random positions above the key
             const x = rect.left + Math.random() * rect.width;
-            const y = rect.top + Math.random() * (rect.height / 2);
+            const y = rect.top;
             
             // Slight delay for each heart
             setTimeout(() => {
@@ -177,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize background elements
     createParticles();
+    createBackgroundHearts();
     
     // Function to play a note
     function playNote(note) {
@@ -312,6 +342,10 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleHeartsBtn.addEventListener('click', () => {
         heartsEnabled = !heartsEnabled;
         toggleHeartsBtn.textContent = heartsEnabled ? 'Disable Hearts' : 'Enable Hearts';
+        
+        // Toggle background hearts container visibility
+        const backgroundHeartsContainer = document.getElementById('background-hearts-container');
+        backgroundHeartsContainer.style.display = heartsEnabled ? 'block' : 'none';
     });
     
     const playDemoBtn = document.getElementById('play-demo');
@@ -350,6 +384,9 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleLabelsBtn.disabled = false;
     });
 });
+       
   
-
+      
+    
  
+
