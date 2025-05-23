@@ -1,29 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cute Words Piano 🎀</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Piano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: white;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .instructions {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+        
+        .piano {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: 40px auto;
+            height: 200px;
+        }
+        
+        .key {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        
+        .white-key {
+            width: 60px;
+            height: 200px;
+            background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+            border: 1px solid #ccc;
+            border-radius: 0 0 5px 5px;
+            color: #333;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .black-key {
+            width: 40px;
+            height: 120px;
+            background: linear-gradient(to bottom, #333 0%, #000 100%);
+            border: 1px solid #000;
+            border-radius: 0 0 5px 5px;
+            position: absolute;
+            z-index: 2;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .white-key.active {
+            background: linear-gradient(to bottom, #ddd 0%, #ccc 100%);
+            transform: translateY(2px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .black-key.active {
+            background: linear-gradient(to bottom, #222 0%, #111 100%);
+            transform: translateY(2px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Positions for black keys */
+        .key-C\# {
+            left: 40px;
+        }
+        
+        .key-D\# {
+            left: 100px;
+        }
+        
+        .key-F\# {
+            left: 220px;
+        }
+        
+        .key-G\# {
+            left: 280px;
+        }
+        
+        .key-A\# {
+            left: 340px;
+        }
+        
+        .key-C\#2 {
+            left: 460px;
+        }
+        
+        .key-D\#2 {
+            left: 520px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        
+        .control-btn {
+            padding: 10px 20px;
+            background: #0f3460;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .control-btn:hover {
+            background: #16213e;
+        }
+        
+        @media (max-width: 768px) {
+            .piano {
+                transform: scale(0.8);
+                margin: 20px auto;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .piano {
+                transform: scale(0.6);
+                margin: 10px auto;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>🎹 Cute Words Piano 🎀</h1>
-  <p id="display">Click a key to get a cute word!</p>
-  <div class="piano">
-    <!-- 12 piano keys -->
-    <button class="key" onclick="playCute('C')">C</button>
-    <button class="key sharp" onclick="playCute('C#')">C#</button>
-    <button class="key" onclick="playCute('D')">D</button>
-    <button class="key sharp" onclick="playCute('D#')">D#</button>
-    <button class="key" onclick="playCute('E')">E</button>
-    <button class="key" onclick="playCute('F')">F</button>
-    <button class="key sharp" onclick="playCute('F#')">F#</button>
-    <button class="key" onclick="playCute('G')">G</button>
-    <button class="key sharp" onclick="playCute('G#')">G#</button>
-    <button class="key" onclick="playCute('A')">A</button>
-    <button class="key sharp" onclick="playCute('A#')">A#</button>
-    <button class="key" onclick="playCute('B')">B</button>
-  </div>
-  <script src="script.js"></script>
+    <div class="container">
+        <h1>Virtual Piano</h1>
+        <div class="instructions">
+            <p>Click on the keys or use your keyboard (A-K for white keys, W-U for black keys)</p>
+        </div>
+        
+        <div class="piano">
+            <!-- White keys -->
+            <div class="key white-key key-C" data-note="C" data-key="a">A</div>
+            <div class="key white-key key-D" data-note="D" data-key="s">S</div>
+            <div class="key white-key key-E" data-note="E" data-key="d">D</div>
+            <div class="key white-key key-F" data-note="F" data-key="f">F</div>
+            <div class="key white-key key-G" data-note="G" data-key="g">G</div>
+            <div class="key white-key key-A" data-note="A" data-key="h">H</div>
+            <div class="key white-key key-B" data-note="B" data-key="j">J</div>
+            <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
+            
+            <!-- Black keys -->
+            <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
+            <div class="key black-key key-D#" data-note="D#" data-key="e">E</div>
+            <div class="key black-key key-F#" data-note="F#" data-key="t">T</div>
+            <div class="key black-key key-G#" data-note="G#" data-key="y">Y</div>
+            <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="toggle-labels">Toggle Key Labels</button>
+            <button class="control-btn" id="play-demo">Play Demo</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const keys = document.querySelectorAll('.key');
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const keyMap = {
+                'a': 'C',
+                'w': 'C#',
+                's': 'D',
+                'e': 'D#',
+                'd': 'E',
+                'f': 'F',
+                't': 'F#',
+                'g': 'G',
+                'y': 'G#',
+                'h': 'A',
+                'u': 'A#',
+                'j': 'B',
+                'k': 'C2'
+            };
+            
+            // Frequencies for each note (in Hz)
+            const noteFrequencies = {
+                'C': 261.63,
+                'C#': 277.18,
+                'D': 293.66,
+                'D#': 311.13,
+                'E': 329.63,
+                'F': 349.23,
+                'F#': 369.99,
+                'G': 392.00,
+                'G#': 415.30,
+                'A': 440.00,
+                'A#': 466.16,
+                'B': 493.88,
+                'C2': 523.25
+            };
+            
+            // Function to play a note
+            function playNote(note) {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.value = noteFrequencies[note];
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 1);
+                
+                return oscillator;
+            }
+            
+            // Add click event listeners to piano keys
+            keys.forEach(key => {
+                key.addEventListener('mousedown', () => {
+                    const note = key.getAttribute('data-note');
+                    playNote(note);
+                    key.classList.add('active');
+                });
+                
+                key.addEventListener('mouseup', () => {
+                    key.classList.remove('active');
+                });
+                
+                key.addEventListener('mouseleave', () => {
+                    key.classList.remove('active');
+                });
+            });
+            
+            // Add keyboard event listeners
+            document.addEventListener('keydown', (e) => {
+                if (e.repeat) return; // Prevent holding key
+                
+                const key = e.key.toLowerCase();
+                if (keyMap[key]) {
+                    const note = keyMap[key];
+                    const keyElement = document.querySelector(`.key[data-note="${note}"]`);
+                    
+                    if (keyElement && !keyElement.classList.contains('active')) {
+                        playNote(note);
+                        keyElement.classList.add('active');
+                    }
+                }
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                const key = e.key.toLowerCase();
+                if (keyMap[key]) {
+                    const note = keyMap[key];
+                    const keyElement = document.querySelector(`.key[data-note="${note}"]`);
+                    
+                    if (keyElement) {
+                        keyElement.classList.remove('active');
+                    }
+                }
+            });
+            
+            // Toggle key labels
+            const toggleLabelsBtn = document.getElementById('toggle-labels');
+            toggleLabelsBtn.addEventListener('click', () => {
+                keys.forEach(key => {
+                    key.classList.toggle('hide-label');
+                    if (key.classList.contains('hide-label')) {
+                        key.textContent = '';
+                    } else {
+                        key.textContent = key.getAttribute('data-key').toUpperCase();
+                    }
+                });
+            });
+            
+            // Play demo
+            const playDemoBtn = document.getElementById('play-demo');
+            playDemoBtn.addEventListener('click', async () => {
+                // Simple melody (Twinkle Twinkle Little Star)
+                const melody = [
+                    'C', 'C', 'G', 'G', 'A', 'A', 'G', 
+                    'F', 'F', 'E', 'E', 'D', 'D', 'C',
+                    'G', 'G', 'F', 'F', 'E', 'E', 'D',
+                    'G', 'G', 'F', 'F', 'E', 'E', 'D',
+                    'C', 'C', 'G', 'G', 'A', 'A', 'G',
+                    'F', 'F', 'E', 'E', 'D', 'D', 'C'
+                ];
+                
+                // Disable buttons during demo
+                playDemoBtn.disabled = true;
+                toggleLabelsBtn.disabled = true;
+                
+                for (const note of melody) {
+                    const keyElement = document.querySelector(`.key[data-note="${note}"]`);
+                    keyElement.classList.add('active');
+                    playNote(note);
+                    
+                    // Wait for 300ms before playing the next note
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    keyElement.classList.remove('active');
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+                
+                // Re-enable buttons after demo
+                playDemoBtn.disabled = false;
+                toggleLabelsBtn.disabled = false;
+            });
+        });
+    </script>
 </body>
 </html>
