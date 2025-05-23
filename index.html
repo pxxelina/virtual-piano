@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hearts Background -->
-    <div class="hearts-container" id="hearts-container"></div>
+    <!-- Beautiful Background Elements -->
+    <div class="background-container">
+        <div class="hearts-container" id="hearts-container"></div>
+        <div class="musical-notes-container" id="musical-notes-container"></div>
+        <div class="gradient-orbs"></div>
+    </div>
     
     <div class="container">
-        <h1>Virtual Piano</h1>
+        <h1>🎹 Virtual Piano 🎹</h1>
         <div class="instructions">
-            <p>Click on the keys or use your keyboard to play</p>
-            <p>First octave: A-K for white keys, W-U for black keys</p>
-            <p>Second octave: Z-M for white keys, 1-5 for black keys</p>
+            <p>✨ Click on the keys or use your keyboard to play ✨</p>
+            <p>First octave: A-L for white keys, W-I for black keys</p>
+            <p>Second octave: Z-, for white keys, 1-6 for black keys</p>
+            <p>Third octave: Q-R for white keys, 7-8 for black keys</p>
         </div>
         
         <div class="piano-container">
@@ -31,13 +36,20 @@
                 
                 <!-- Second Octave - White keys -->
                 <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
-                <div class="key white-key key-D2" data-note="D2" data-key="z">Z</div>
-                <div class="key white-key key-E2" data-note="E2" data-key="x">X</div>
-                <div class="key white-key key-F2" data-note="F2" data-key="c">C</div>
-                <div class="key white-key key-G2" data-note="G2" data-key="v">V</div>
-                <div class="key white-key key-A2" data-note="A2" data-key="b">B</div>
-                <div class="key white-key key-B2" data-note="B2" data-key="n">N</div>
-                <div class="key white-key key-C3" data-note="C3" data-key="m">M</div>
+                <div class="key white-key key-D2" data-note="D2" data-key="l">L</div>
+                <div class="key white-key key-E2" data-note="E2" data-key="z">Z</div>
+                <div class="key white-key key-F2" data-note="F2" data-key="x">X</div>
+                <div class="key white-key key-G2" data-note="G2" data-key="c">C</div>
+                <div class="key white-key key-A2" data-note="A2" data-key="v">V</div>
+                <div class="key white-key key-B2" data-note="B2" data-key="b">B</div>
+                <div class="key white-key key-C3" data-note="C3" data-key="n">N</div>
+                <div class="key white-key key-D3" data-note="D3" data-key="m">M</div>
+                <div class="key white-key key-E3" data-note="E3" data-key=",">,</div>
+                
+                <!-- Third Octave - Additional White keys -->
+                <div class="key white-key key-F3" data-note="F3" data-key="q">Q</div>
+                <div class="key white-key key-G3" data-note="G3" data-key="w">W</div>
+                <div class="key white-key key-A3" data-note="A3" data-key="r">R</div>
                 
                 <!-- First Octave - Black keys -->
                 <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
@@ -47,22 +59,28 @@
                 <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
                 
                 <!-- Second Octave - Black keys -->
-                <div class="key black-key key-C#2" data-note="C#2" data-key="1">1</div>
-                <div class="key black-key key-D#2" data-note="D#2" data-key="2">2</div>
-                <div class="key black-key key-F#2" data-note="F#2" data-key="3">3</div>
-                <div class="key black-key key-G#2" data-note="G#2" data-key="4">4</div>
-                <div class="key black-key key-A#2" data-note="A#2" data-key="5">5</div>
+                <div class="key black-key key-C#2" data-note="C#2" data-key="i">I</div>
+                <div class="key black-key key-D#2" data-note="D#2" data-key="1">1</div>
+                <div class="key black-key key-F#2" data-note="F#2" data-key="2">2</div>
+                <div class="key black-key key-G#2" data-note="G#2" data-key="3">3</div>
+                <div class="key black-key key-A#2" data-note="A#2" data-key="4">4</div>
+                <div class="key black-key key-C#3" data-note="C#3" data-key="5">5</div>
+                <div class="key black-key key-D#3" data-note="D#3" data-key="6">6</div>
+                
+                <!-- Third Octave - Black keys -->
+                <div class="key black-key key-F#3" data-note="F#3" data-key="7">7</div>
+                <div class="key black-key key-G#3" data-note="G#3" data-key="8">8</div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="control-btn" id="toggle-labels">Toggle Key Labels</button>
-            <button class="control-btn" id="play-demo">Play Demo</button>
-            <button class="control-btn" id="toggle-hearts">Toggle Hearts</button>
+            <button class="control-btn" id="toggle-labels">🏷️ Toggle Labels</button>
+            <button class="control-btn" id="play-demo">🎵 Play Demo</button>
+            <button class="control-btn" id="toggle-hearts">💖 Toggle Hearts</button>
+            <button class="control-btn" id="toggle-notes">🎼 Toggle Notes</button>
         </div>
     </div>
     
     <script src="script.js"></script>
 </body>
-</html>            
-        
+</html>
