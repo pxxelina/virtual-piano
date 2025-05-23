@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const keys = document.querySelectorAll('.key');
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const keyMap = {
@@ -17,18 +17,28 @@ document.addEventListener('DOMContentLoaded', function() {
         'j': 'B',
         // Second octave
         'k': 'C2',
-        '1': 'C#2',
-        'z': 'D2',
-        '2': 'D#2',
-        'x': 'E2',
-        'c': 'F2',
-        '3': 'F#2',
-        'v': 'G2',
-        '4': 'G#2',
-        'b': 'A2',
-        '5': 'A#2',
-        'n': 'B2',
-        'm': 'C3'
+        'i': 'C#2',
+        'l': 'D2',
+        '1': 'D#2',
+        'z': 'E2',
+        'x': 'F2',
+        '2': 'F#2',
+        'c': 'G2',
+        '3': 'G#2',
+        'v': 'A2',
+        '4': 'A#2',
+        'b': 'B2',
+        'n': 'C3',
+        '5': 'C#3',
+        'm': 'D3',
+        '6': 'D#3',
+        ',': 'E3',
+        // Third octave
+        'q': 'F3',
+        '7': 'F#3',
+        'w': 'G3',
+        '8': 'G#3',
+        'r': 'A3'
     };
     
     // Frequencies for each note (in Hz)
@@ -59,23 +69,32 @@ document.addEventListener('DOMContentLoaded', function() {
         'A2': 880.00,
         'A#2': 932.33,
         'B2': 987.77,
-        'C3': 1046.50
+        'C3': 1046.50,
+        'C#3': 1108.73,
+        'D3': 1174.66,
+        'D#3': 1244.51,
+        'E3': 1318.51,
+        // Third octave
+        'F3': 1396.91,
+        'F#3': 1479.98,
+        'G3': 1567.98,
+        'G#3': 1661.22,
+        'A3': 1760.00
     };
     
     // Create floating hearts
     function createHearts() {
         const heartsContainer = document.getElementById('hearts-container');
-        const numberOfHearts = 20;
+        const numberOfHearts = 15;
         
         for (let i = 0; i < numberOfHearts; i++) {
             const heart = document.createElement('div');
             heart.classList.add('heart');
             
-            // Random position
             const left = Math.random() * 100;
-            const size = Math.random() * 20 + 10;
-            const animationDuration = Math.random() * 15 + 10;
-            const delay = Math.random() * 15;
+            const size = Math.random() * 15 + 10;
+            const animationDuration = Math.random() * 10 + 15;
+            const delay = Math.random() * 20;
             
             heart.style.left = `${left}%`;
             heart.style.bottom = '-50px';
@@ -84,54 +103,112 @@ document.addEventListener('DOMContentLoaded', function() {
             heart.style.animationDuration = `${animationDuration}s`;
             heart.style.animationDelay = `${delay}s`;
             
-            // Adjust the before and after pseudo-elements
-            heart.style.setProperty('--size', `${size}px`);
-            
             heartsContainer.appendChild(heart);
         }
     }
     
-    // Create hearts on load
-    createHearts();
+    // Create floating musical notes
+    function createMusicalNotes() {
+        const notesContainer = document.getElementById('musical-notes-container');
+        const musicalSymbols = ['♪', '♫', '♬', '♩', '♭', '♯', '𝄞'];
+        const numberOfNotes = 12;
+        
+        for (let i = 0; i < numberOfNotes; i++) {
+            const note = document.createElement('div');
+            note.classList.add('musical-note');
+            note.textContent = musicalSymbols[Math.floor(Math.random() * musicalSymbols.length)];
+            
+            const left = Math.random() * 100;
+            const size = Math.random() * 20 + 20;
+            const animationDuration = Math.random() * 8 + 12;
+            const delay = Math.random() * 15;
+            
+            note.style.left = `${left}%`;
+            note.style.fontSize = `${size}px`;
+            note.style.animationDuration = `${animationDuration}s`;
+            note.style.animationDelay = `${delay}s`;
+            
+            notesContainer.appendChild(note);
+        }
+    }
     
-    // Function to play a note
+    // Create sparkle effect
+    function createSparkle(element) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        
+        const rect = element.getBoundingClientRect();
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+        
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+        
+        element.appendChild(sparkle);
+        
+        setTimeout(() => {
+            sparkle.remove();
+        }, 600);
+    }
+    
+    // Initialize background elements
+    createHearts();
+    createMusicalNotes();
+    
+    // Function to play a note with enhanced sound
     function playNote(note) {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
+        const filterNode = audioContext.createBiquadFilter();
         
         oscillator.type = 'sine';
         oscillator.frequency.value = noteFrequencies[note];
         
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+        filterNode.type = 'lowpass';
+        filterNode.frequency.value = 2000;
         
-        oscillator.connect(gainNode);
+        gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+        
+        oscillator.connect(filterNode);
+        filterNode.connect(gainNode);
         gainNode.connect(audioContext.destination);
         
         oscillator.start();
-        oscillator.stop(audioContext.currentTime + 1);
+        oscillator.stop(audioContext.currentTime + 1.5);
         
         return oscillator;
     }
     
     // Position black keys correctly
     function positionBlackKeys() {
-        // First octave
-        document.querySelector('.key-C\\#').style.left = (document.querySelector('.key-C').offsetLeft + document.querySelector('.key-C').offsetWidth - 20) + 'px';
-        document.querySelector('.key-D\\#').style.left = (document.querySelector('.key-D').offsetLeft + document.querySelector('.key-D').offsetWidth - 20) + 'px';
-        document.querySelector('.key-F\\#').style.left = (document.querySelector('.key-F').offsetLeft + document.querySelector('.key-F').offsetWidth - 20) + 'px';
-        document.querySelector('.key-G\\#').style.left = (document.querySelector('.key-G').offsetLeft + document.querySelector('.key-G').offsetWidth - 20) + 'px';
-        document.querySelector('.key-A\\#').style.left = (document.querySelector('.key-A').offsetLeft + document.querySelector('.key-A').offsetWidth - 20) + 'px';
+        const blackKeyPositions = [
+            { selector: '.key-C\\#', whiteKey: '.key-C' },
+            { selector: '.key-D\\#', whiteKey: '.key-D' },
+            { selector: '.key-F\\#', whiteKey: '.key-F' },
+            { selector: '.key-G\\#', whiteKey: '.key-G' },
+            { selector: '.key-A\\#', whiteKey: '.key-A' },
+            { selector: '.key-C\\#2', whiteKey: '.key-C2' },
+            { selector: '.key-D\\#2', whiteKey: '.key-D2' },
+            { selector: '.key-F\\#2', whiteKey: '.key-F2' },
+            { selector: '.key-G\\#2', whiteKey: '.key-G2' },
+            { selector: '.key-A\\#2', whiteKey: '.key-A2' },
+            { selector: '.key-C\\#3', whiteKey: '.key-C3' },
+            { selector: '.key-D\\#3', whiteKey: '.key-D3' },
+            { selector: '.key-F\\#3', whiteKey: '.key-F3' },
+            { selector: '.key-G\\#3', whiteKey: '.key-G3' }
+        ];
         
-        // Second octave
-        document.querySelector('.key-C\\#2').style.left = (document.querySelector('.key-C2').offsetLeft + document.querySelector('.key-C2').offsetWidth - 20) + 'px';
-        document.querySelector('.key-D\\#2').style.left = (document.querySelector('.key-D2').offsetLeft + document.querySelector('.key-D2').offsetWidth - 20) + 'px';
-        document.querySelector('.key-F\\#2').style.left = (document.querySelector('.key-F2').offsetLeft + document.querySelector('.key-F2').offsetWidth - 20) + 'px';
-        document.querySelector('.key-G\\#2').style.left = (document.querySelector('.key-G2').offsetLeft + document.querySelector('.key-G2').offsetWidth - 20) + 'px';
-        document.querySelector('.key-A\\#2').style.left = (document.querySelector('.key-A2').offsetLeft + document.querySelector('.key-A2').offsetWidth - 20) + 'px';
+        blackKeyPositions.forEach(pos => {
+            const blackKey = document.querySelector(pos.selector);
+            const whiteKey = document.querySelector(pos.whiteKey);
+            if (blackKey && whiteKey) {
+                blackKey.style.left = (whiteKey.offsetLeft + whiteKey.offsetWidth - 20) + 'px';
+            }
+        });
     }
     
-    // Position black keys on load and window resize
+    // Position black keys on load and resize
     window.addEventListener('load', positionBlackKeys);
     window.addEventListener('resize', positionBlackKeys);
     
@@ -141,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const note = key.getAttribute('data-note');
             playNote(note);
             key.classList.add('active');
+            createSparkle(key);
         });
         
         key.addEventListener('mouseup', () => {
@@ -154,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add keyboard event listeners
     document.addEventListener('keydown', (e) => {
-        if (e.repeat) return; // Prevent holding key
+        if (e.repeat) return;
         
         const key = e.key.toLowerCase();
         if (keyMap[key]) {
@@ -164,6 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (keyElement && !keyElement.classList.contains('active')) {
                 playNote(note);
                 keyElement.classList.add('active');
+                createSparkle(keyElement);
             }
         }
     });
@@ -180,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Toggle key labels
+    // Control buttons
     const toggleLabelsBtn = document.getElementById('toggle-labels');
     toggleLabelsBtn.addEventListener('click', () => {
         keys.forEach(key => {
@@ -193,21 +272,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Toggle hearts
     const toggleHeartsBtn = document.getElementById('toggle-hearts');
     toggleHeartsBtn.addEventListener('click', () => {
         const heartsContainer = document.getElementById('hearts-container');
-        if (heartsContainer.style.display === 'none') {
-            heartsContainer.style.display = 'block';
-        } else {
-            heartsContainer.style.display = 'none';
-        }
+        heartsContainer.style.display = heartsContainer.style.display === 'none' ? 'block' : 'none';
     });
     
-    // Play demo
+    const toggleNotesBtn = document.getElementById('toggle-notes');
+    toggleNotesBtn.addEventListener('click', () => {
+        const notesContainer = document.getElementById('musical-notes-container');
+        notesContainer.style.display = notesContainer.style.display === 'none' ? 'block' : 'none';
+    });
+    
     const playDemoBtn = document.getElementById('play-demo');
     playDemoBtn.addEventListener('click', async () => {
-        // Simple melody (Twinkle Twinkle Little Star)
         const melody = [
             'C', 'C', 'G', 'G', 'A', 'A', 'G', 
             'F', 'F', 'E', 'E', 'D', 'D', 'C',
@@ -217,22 +295,22 @@ document.addEventListener('DOMContentLoaded', function() {
             'F', 'F', 'E', 'E', 'D', 'D', 'C'
         ];
         
-        // Disable buttons during demo
         playDemoBtn.disabled = true;
         toggleLabelsBtn.disabled = true;
         
         for (const note of melody) {
             const keyElement = document.querySelector(`.key[data-note="${note}"]`);
-            keyElement.classList.add('active');
-            playNote(note);
-            
-            // Wait for 300ms before playing the next note
-            await new Promise(resolve => setTimeout(resolve, 300));
-            keyElement.classList.remove('active');
-            await new Promise(resolve => setTimeout(resolve, 50));
+            if (keyElement) {
+                keyElement.classList.add('active');
+                playNote(note);
+                createSparkle(keyElement);
+                
+                await new Promise(resolve => setTimeout(resolve, 400));
+                keyElement.classList.remove('active');
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
         }
         
-        // Re-enable buttons after demo
         playDemoBtn.disabled = false;
         toggleLabelsBtn.disabled = false;
     });
