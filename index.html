@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,13 +20,75 @@
             min-height: 100vh;
             background: linear-gradient(to bottom, #1a1a2e, #16213e);
             color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #FFC0CB; /* Baby pink */
+            transform: rotate(45deg);
+            opacity: 0.6;
+            animation: float 15s linear infinite;
+        }
+        
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #FFC0CB; /* Baby pink */
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-100vh) translateX(20px);
+                opacity: 0;
+            }
         }
         
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            z-index: 1;
         }
         
         h1 {
@@ -43,12 +105,18 @@
             color: #ccc;
         }
         
+        .piano-container {
+            overflow-x: auto;
+            width: 100%;
+            padding: 20px 0;
+        }
+        
         .piano {
             display: flex;
-            justify-content: center;
             position: relative;
             margin: 40px auto;
             height: 200px;
+            min-width: max-content;
         }
         
         .key {
@@ -70,6 +138,8 @@
             padding-bottom: 10px;
             font-weight: bold;
             z-index: 1;
+            margin: 0 -10px;  /* This creates overlap space for black keys */
+            position: relative;
         }
         
         .black-key {
@@ -86,6 +156,7 @@
             justify-content: center;
             padding-bottom: 10px;
             font-weight: bold;
+            transform: translateX(-20px); /* Center black keys between white keys */
         }
         
         .white-key.active {
@@ -100,33 +171,46 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
         
-        /* Positions for black keys */
+        /* Positions for black keys - first octave */
         .key-C\# {
-            left: 40px;
+            left: 45px;
         }
         
         .key-D\# {
-            left: 100px;
+            left: 105px;
         }
         
         .key-F\# {
-            left: 220px;
+            left: 225px;
         }
         
         .key-G\# {
-            left: 280px;
+            left: 285px;
         }
         
         .key-A\# {
-            left: 340px;
+            left: 345px;
         }
         
+        /* Positions for black keys - second octave */
         .key-C\#2 {
-            left: 460px;
+            left: 465px;
         }
         
         .key-D\#2 {
-            left: 520px;
+            left: 525px;
+        }
+        
+        .key-F\#2 {
+            left: 645px;
+        }
+        
+        .key-G\#2 {
+            left: 705px;
+        }
+        
+        .key-A\#2 {
+            left: 765px;
         }
         
         .controls {
@@ -134,6 +218,7 @@
             justify-content: center;
             margin-top: 20px;
             gap: 20px;
+            flex-wrap: wrap;
         }
         
         .control-btn {
@@ -172,37 +257,65 @@
                 font-size: 1.5rem;
             }
         }
+        
+        .hide-label {
+            color: transparent !important;
+        }
     </style>
 </head>
 <body>
+    <!-- Hearts Background -->
+    <div class="hearts-container" id="hearts-container"></div>
+    
     <div class="container">
         <h1>Virtual Piano</h1>
         <div class="instructions">
-            <p>Click on the keys or use your keyboard (A-K for white keys, W-U for black keys)</p>
+            <p>Click on the keys or use your keyboard to play</p>
+            <p>First octave: A-K for white keys, W-U for black keys</p>
+            <p>Second octave: Z-M for white keys, S-J for black keys</p>
         </div>
         
-        <div class="piano">
-            <!-- White keys -->
-            <div class="key white-key key-C" data-note="C" data-key="a">A</div>
-            <div class="key white-key key-D" data-note="D" data-key="s">S</div>
-            <div class="key white-key key-E" data-note="E" data-key="d">D</div>
-            <div class="key white-key key-F" data-note="F" data-key="f">F</div>
-            <div class="key white-key key-G" data-note="G" data-key="g">G</div>
-            <div class="key white-key key-A" data-note="A" data-key="h">H</div>
-            <div class="key white-key key-B" data-note="B" data-key="j">J</div>
-            <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
-            
-            <!-- Black keys -->
-            <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
-            <div class="key black-key key-D#" data-note="D#" data-key="e">E</div>
-            <div class="key black-key key-F#" data-note="F#" data-key="t">T</div>
-            <div class="key black-key key-G#" data-note="G#" data-key="y">Y</div>
-            <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
+        <div class="piano-container">
+            <div class="piano">
+                <!-- First Octave - White keys -->
+                <div class="key white-key key-C" data-note="C" data-key="a">A</div>
+                <div class="key white-key key-D" data-note="D" data-key="s">S</div>
+                <div class="key white-key key-E" data-note="E" data-key="d">D</div>
+                <div class="key white-key key-F" data-note="F" data-key="f">F</div>
+                <div class="key white-key key-G" data-note="G" data-key="g">G</div>
+                <div class="key white-key key-A" data-note="A" data-key="h">H</div>
+                <div class="key white-key key-B" data-note="B" data-key="j">J</div>
+                
+                <!-- Second Octave - White keys -->
+                <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
+                <div class="key white-key key-D2" data-note="D2" data-key="z">Z</div>
+                <div class="key white-key key-E2" data-note="E2" data-key="x">X</div>
+                <div class="key white-key key-F2" data-note="F2" data-key="c">C</div>
+                <div class="key white-key key-G2" data-note="G2" data-key="v">V</div>
+                <div class="key white-key key-A2" data-note="A2" data-key="b">B</div>
+                <div class="key white-key key-B2" data-note="B2" data-key="n">N</div>
+                <div class="key white-key key-C3" data-note="C3" data-key="m">M</div>
+                
+                <!-- First Octave - Black keys -->
+                <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
+                <div class="key black-key key-D#" data-note="D#" data-key="e">E</div>
+                <div class="key black-key key-F#" data-note="F#" data-key="t">T</div>
+                <div class="key black-key key-G#" data-note="G#" data-key="y">Y</div>
+                <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
+                
+                <!-- Second Octave - Black keys -->
+                <div class="key black-key key-C#2" data-note="C#2" data-key="o">O</div>
+                <div class="key black-key key-D#2" data-note="D#2" data-key="p">P</div>
+                <div class="key black-key key-F#2" data-note="F#2" data-key="s">S</div>
+                <div class="key black-key key-G#2" data-note="G#2" data-key="d">D</div>
+                <div class="key black-key key-A#2" data-note="A#2" data-key="f">F</div>
+            </div>
         </div>
         
         <div class="controls">
             <button class="control-btn" id="toggle-labels">Toggle Key Labels</button>
             <button class="control-btn" id="play-demo">Play Demo</button>
+            <button class="control-btn" id="toggle-hearts">Toggle Hearts</button>
         </div>
     </div>
     
@@ -211,6 +324,7 @@
             const keys = document.querySelectorAll('.key');
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const keyMap = {
+                // First octave
                 'a': 'C',
                 'w': 'C#',
                 's': 'D',
@@ -223,11 +337,25 @@
                 'h': 'A',
                 'u': 'A#',
                 'j': 'B',
-                'k': 'C2'
+                // Second octave
+                'k': 'C2',
+                'o': 'C#2',
+                'z': 'D2',
+                'p': 'D#2',
+                'x': 'E2',
+                'c': 'F2',
+                's': 'F#2',
+                'v': 'G2',
+                'd': 'G#2',
+                'b': 'A2',
+                'f': 'A#2',
+                'n': 'B2',
+                'm': 'C3'
             };
             
             // Frequencies for each note (in Hz)
             const noteFrequencies = {
+                // First octave
                 'C': 261.63,
                 'C#': 277.18,
                 'D': 293.66,
@@ -240,8 +368,53 @@
                 'A': 440.00,
                 'A#': 466.16,
                 'B': 493.88,
-                'C2': 523.25
+                // Second octave
+                'C2': 523.25,
+                'C#2': 554.37,
+                'D2': 587.33,
+                'D#2': 622.25,
+                'E2': 659.25,
+                'F2': 698.46,
+                'F#2': 739.99,
+                'G2': 783.99,
+                'G#2': 830.61,
+                'A2': 880.00,
+                'A#2': 932.33,
+                'B2': 987.77,
+                'C3': 1046.50
             };
+            
+            // Create floating hearts
+            function createHearts() {
+                const heartsContainer = document.getElementById('hearts-container');
+                const numberOfHearts = 20;
+                
+                for (let i = 0; i < numberOfHearts; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    
+                    // Random position
+                    const left = Math.random() * 100;
+                    const size = Math.random() * 20 + 10;
+                    const animationDuration = Math.random() * 15 + 10;
+                    const delay = Math.random() * 15;
+                    
+                    heart.style.left = `${left}%`;
+                    heart.style.bottom = '-50px';
+                    heart.style.width = `${size}px`;
+                    heart.style.height = `${size}px`;
+                    heart.style.animationDuration = `${animationDuration}s`;
+                    heart.style.animationDelay = `${delay}s`;
+                    
+                    // Adjust the before and after pseudo-elements
+                    heart.style.setProperty('--size', `${size}px`);
+                    
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            // Create hearts on load
+            createHearts();
             
             // Function to play a note
             function playNote(note) {
@@ -319,6 +492,17 @@
                         key.textContent = key.getAttribute('data-key').toUpperCase();
                     }
                 });
+            });
+            
+            // Toggle hearts
+            const toggleHeartsBtn = document.getElementById('toggle-hearts');
+            toggleHeartsBtn.addEventListener('click', () => {
+                const heartsContainer = document.getElementById('hearts-container');
+                if (heartsContainer.style.display === 'none') {
+                    heartsContainer.style.display = 'block';
+                } else {
+                    heartsContainer.style.display = 'none';
+                }
             });
             
             // Play demo
