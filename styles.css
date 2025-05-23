@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Floating Hearts Background */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #FFC0CB; /* Baby pink */
+    transform: rotate(45deg);
+    opacity: 0.6;
+    animation: float 15s linear infinite;
+}
+
+.heart:before,
+.heart:after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: #FFC0CB; /* Baby pink */
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart:before {
+    top: -10px;
+    left: 0;
+}
+
+.heart:after {
+    top: 0;
+    left: -10px;
+}
+
+@keyframes float {
+    0% {
+        transform: rotate(45deg) translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: rotate(45deg) translateY(-100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    z-index: 1;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.instructions {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.piano-container {
+    overflow-x: auto;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.piano {
+    display: flex;
+    position: relative;
+    margin: 40px auto;
+    height: 200px;
+    min-width: max-content;
+}
+
+.key {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.white-key {
+    width: 60px;
+    height: 200px;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    color: #333;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    font-weight: bold;
+    z-index: 1;
+    margin: 0 2px;  /* Small margin between white keys */
+    position: relative;
+}
+
+.black-key {
+    width: 40px;
+    height: 120px;
+    background: linear-gradient(to bottom, #333 0%, #000 100%);
+    border: 1px solid #000;
+    border-radius: 0 0 5px 5px;
+    position: absolute;
+    z-index: 2;
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.white-key.active {
+    background: linear-gradient(to bottom, #ddd 0%, #ccc 100%);
+    transform: translateY(2px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.black-key.active {
+    background: linear-gradient(to bottom, #222 0%, #111 100%);
+    transform: translateY(2px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Positions for black keys - these will be overridden by JavaScript */
+.key-C\# {
+    left: 40px;
+}
+
+.key-D\# {
+    left: 104px;
+}
+
+.key-F\# {
+    left: 232px;
+}
+
+.key-G\# {
+    left: 296px;
+}
+
+.key-A\# {
+    left: 360px;
+}
+
+.key-C\#2 {
+    left: 488px;
+}
+
+.key-D\#2 {
+    left: 552px;
+}
+
+.key-F\#2 {
+    left: 680px;
+}
+
+.key-G\#2 {
+    left: 744px;
+}
+
+.key-A\#2 {
+    left: 808px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    background: #0f3460;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: #16213e;
+}
+
+@media (max-width: 768px) {
+    .piano {
+        transform: scale(0.8);
+        margin: 20px auto;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .piano {
+        transform: scale(0.6);
+        margin: 10px auto;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+.hide-label {
+    color: transparent !important;
+}
