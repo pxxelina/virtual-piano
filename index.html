@@ -3,97 +3,862 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Piano</title>
+    <title>Lina Yassire - MIP Student & Developer</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Lina Yassire - MIP Student and Passionate Developer from Morocco">
+    <meta name="keywords" content="MIP, Morocco, Developer, Mathematics, Computer Science, Physics">
 </head>
 <body>
-    <!-- Clean Background Elements -->
-    <div class="background-container">
-        <div class="floating-particles" id="floating-particles"></div>
-        <div class="soft-waves"></div>
-        <div class="decorative-elements">
-            <div class="decorative-circle circle-1"></div>
-            <div class="decorative-circle circle-2"></div>
-            <div class="decorative-line line-1"></div>
-            <div class="decorative-line line-2"></div>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">🌸</div>
+            <div class="loading-text">Loading...</div>
         </div>
     </div>
-    
-    <!-- Hearts container - always visible -->
-    <div class="background-hearts-container" id="background-hearts-container"></div>
-    
-    <!-- Hearts container for playing animation -->
-    <div class="playing-hearts-container" id="playing-hearts-container"></div>
-    
-    <div class="container">
-        <h1>Virtual Piano</h1>
-        <div class="instructions">
-            <p>Click on the keys or use your keyboard to play</p>
-            <p>First octave: A-L for white keys, W-I for black keys</p>
-            <p>Second octave: Z-, for white keys, 1-6 for black keys</p>
-            <p>Third octave: Q-R for white keys, 7-8 for black keys</p>
-        </div>
-        
-        <div class="piano-container">
-            <div class="piano">
-                <!-- First Octave - White keys -->
-                <div class="key white-key key-C" data-note="C" data-key="a">A</div>
-                <div class="key white-key key-D" data-note="D" data-key="s">S</div>
-                <div class="key white-key key-E" data-note="E" data-key="d">D</div>
-                <div class="key white-key key-F" data-note="F" data-key="f">F</div>
-                <div class="key white-key key-G" data-note="G" data-key="g">G</div>
-                <div class="key white-key key-A" data-note="A" data-key="h">H</div>
-                <div class="key white-key key-B" data-note="B" data-key="j">J</div>
-                
-                <!-- Second Octave - White keys -->
-                <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
-                <div class="key white-key key-D2" data-note="D2" data-key="l">L</div>
-                <div class="key white-key key-E2" data-note="E2" data-key="z">Z</div>
-                <div class="key white-key key-F2" data-note="F2" data-key="x">X</div>
-                <div class="key white-key key-G2" data-note="G2" data-key="c">C</div>
-                <div class="key white-key key-A2" data-note="A2" data-key="v">V</div>
-                <div class="key white-key key-B2" data-note="B2" data-key="b">B</div>
-                <div class="key white-key key-C3" data-note="C3" data-key="n">N</div>
-                <div class="key white-key key-D3" data-note="D3" data-key="m">M</div>
-                <div class="key white-key key-E3" data-note="E3" data-key=",">,</div>
-                
-                <!-- Third Octave - Additional White keys -->
-                <div class="key white-key key-F3" data-note="F3" data-key="q">Q</div>
-                <div class="key white-key key-G3" data-note="G3" data-key="w">W</div>
-                <div class="key white-key key-A3" data-note="A3" data-key="r">R</div>
-                
-                <!-- First Octave - Black keys -->
-                <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
-                <div class="key black-key key-D#" data-note="D#" data-key="e">E</div>
-                <div class="key black-key key-F#" data-note="F#" data-key="t">T</div>
-                <div class="key black-key key-G#" data-note="G#" data-key="y">Y</div>
-                <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
-                
-                <!-- Second Octave - Black keys -->
-                <div class="key black-key key-C#2" data-note="C#2" data-key="i">I</div>
-                <div class="key black-key key-D#2" data-note="D#2" data-key="1">1</div>
-                <div class="key black-key key-F#2" data-note="F#2" data-key="2">2</div>
-                <div class="key black-key key-G#2" data-note="G#2" data-key="3">3</div>
-                <div class="key black-key key-A#2" data-note="A#2" data-key="4">4</div>
-                <div class="key black-key key-C#3" data-note="C#3" data-key="5">5</div>
-                <div class="key black-key key-D#3" data-note="D#3" data-key="6">6</div>
-                
-                <!-- Third Octave - Black keys -->
-                <div class="key black-key key-F#3" data-note="F#3" data-key="7">7</div>
-                <div class="key black-key key-G#3" data-note="G#3" data-key="8">8</div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <!-- Floating Sakuras -->
+    <div class="sakura-container" aria-hidden="true">
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+        <div class="sakura">🌸</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Lina Yassire</span>
+                <span class="logo-subtitle">MIP Student & Developer</span>
+            </div>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#home" class="nav-link active" role="menuitem">Home</a></li>
+                <li role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
+                <li role="none"><a href="#mip" class="nav-link" role="menuitem">MIP Program</a></li>
+                <li role="none"><a href="#skills" class="nav-link" role="menuitem">Skills</a></li>
+                <li role="none"><a href="#projects" class="nav-link" role="menuitem">Projects</a></li>
+                <li role="none"><a href="#contact" class="nav-link" role="menuitem">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
-        
-        <div class="controls">
-            <button class="control-btn" id="toggle-labels">Toggle Labels</button>
-            <button class="control-btn" id="play-demo">Play Demo</button>
-            <button class="control-btn" id="toggle-hearts">Toggle Hearts</button>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active" role="main">
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-text">🇲🇦 Moroccan Developer</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="greeting">Hello, I'm</span>
+                        <span class="name gradient-text">Lina Yassire</span>
+                        <span class="title-desc">MIP Student & Passionate Developer</span>
+                    </h1>
+                    <p class="hero-description">
+                        A 19-year-old dreamy developer from Morocco, currently pursuing MIP 
+                        (Mathématiques, Informatique, Physique) and exploring the fascinating 
+                        intersection of mathematics, computer science, and physics through code.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">1st</span>
+                            <span class="stat-label">Year MIP</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">6+</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Dreams</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showSection('about')">
+                            <i class="fas fa-user"></i>
+                            <span>About Me</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('mip')">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>MIP Program</span>
+                        </button>
+                        <a href="mailto:linayassire00@gmail.com" class="btn btn-outline">
+                            <i class="fas fa-envelope"></i>
+                            <span>Get In Touch</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-container">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-30%20at%2017.36.21_6cb65cbb.jpg-JsWvrpeDWOHYY0mnV16IODWsJlurkv.jpeg" alt="Lina Yassire - Developer" class="developer-image">
+                        <div class="image-glow"></div>
+                        <div class="image-decoration">
+                            <div class="decoration-item">💻</div>
+                            <div class="decoration-item">🌸</div>
+                            <div class="decoration-item">📚</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Info Cards -->
+            <div class="info-cards">
+                <div class="info-card" onclick="showSection('about')">
+                    <div class="card-icon">💝</div>
+                    <h3>Personal Journey</h3>
+                    <p>Discover my passions for coding, music, literature, and cats</p>
+                    <div class="card-arrow">→</div>
+                </div>
+                <div class="info-card" onclick="showSection('mip')">
+                    <div class="card-icon">🎓</div>
+                    <h3>MIP Excellence</h3>
+                    <p>Learn about Morocco's prestigious preparatory program</p>
+                    <div class="card-arrow">→</div>
+                </div>
+                <div class="info-card" onclick="showSection('projects')">
+                    <div class="card-icon">🎹</div>
+                    <h3>Featured Project</h3>
+                    <p>Explore my Virtual Piano web application</p>
+                    <div class="card-arrow">→</div>
+                </div>
+            </div>
         </div>
-        
-        <div class="creator-credit">Created with ♡ by <span class="creator-name">Lina Yassire</span> © 2025</div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-number">01.</span>
+                    <span class="gradient-text">About Me</span>
+                </h2>
+                <p class="section-subtitle">Getting to know the person behind the code</p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3 class="content-title">🌟 My Story</h3>
+                        <p>
+                            I'm Lina Yassire, a 19-year-old dreamy and passionate first-year developer from Morocco. 
+                            Currently pursuing MIP (Mathématiques, Informatique, Physique), I'm on an exciting journey 
+                            discovering the beautiful intersection of mathematics, computer science, and physics.
+                        </p>
+                        <p>
+                            My approach to development is influenced by my love for literature and music, bringing 
+                            creativity and artistic thinking to technical problem-solving. I believe that the best 
+                            code is not just functional, but elegant and expressive.
+                        </p>
+                    </div>
+
+                    <div class="interests-section">
+                        <h3 class="content-title">💖 What I Love</h3>
+                        <div class="interests-grid">
+                            <div class="interest-card">
+                                <div class="interest-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <h4>Coding</h4>
+                                <p>Creating beautiful, functional applications that solve real problems</p>
+                            </div>
+                            <div class="interest-card">
+                                <div class="interest-icon">
+                                    <i class="fas fa-music"></i>
+                                </div>
+                                <h4>Music</h4>
+                                <p>Playing piano and exploring how rhythm influences my coding flow</p>
+                            </div>
+                            <div class="interest-card">
+                                <div class="interest-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <h4>Literature</h4>
+                                <p>Finding inspiration in Kafka, Camus, and James Joyce's profound narratives</p>
+                            </div>
+                            <div class="interest-card">
+                                <div class="interest-icon">
+                                    <i class="fas fa-cat"></i>
+                                </div>
+                                <h4>Cats</h4>
+                                <p>My coding companions who provide the perfect debugging assistance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-sidebar">
+                    <div class="sidebar-card">
+                        <h4>📍 Location</h4>
+                        <p>Morocco 🇲🇦</p>
+                    </div>
+                    <div class="sidebar-card">
+                        <h4>🎓 Education</h4>
+                        <p>MIP Program<br><small>1st Year Student</small></p>
+                    </div>
+                    <div class="sidebar-card">
+                        <h4>💼 Focus Areas</h4>
+                        <ul>
+                            <li>Web Development</li>
+                            <li>Mathematical Computing</li>
+                            <li>Algorithm Design</li>
+                            <li>UI/UX Design</li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-card">
+                        <h4>📚 Currently Reading</h4>
+                        <p><em>"The Metamorphosis"</em><br><small>by Franz Kafka</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MIP Section -->
+    <section id="mip" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-number">02.</span>
+                    <span class="gradient-text">MIP Program</span>
+                </h2>
+                <p class="section-subtitle">Understanding Morocco's Elite Preparatory Education System</p>
+            </div>
+
+            <div class="mip-overview">
+                <div class="overview-card featured">
+                    <div class="card-header">
+                        <h3>🎓 What is MIP?</h3>
+                        <div class="card-badge">Elite Program</div>
+                    </div>
+                    <p>
+                        <strong>MIP (Mathématiques, Informatique, Physique)</strong> is Morocco's most prestigious 
+                        preparatory program, designed to create the next generation of engineers, scientists, and 
+                        technology leaders. This intensive 2-year program combines rigorous academic training with 
+                        practical application, preparing students for admission to Morocco's top engineering schools.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mip-details">
+                <div class="detail-section">
+                    <h3 class="detail-title">📋 Program Structure</h3>
+                    <div class="structure-grid">
+                        <div class="structure-card">
+                            <div class="structure-icon">📐</div>
+                            <h4>Mathematics (40%)</h4>
+                            <ul>
+                                <li>Advanced Calculus & Analysis</li>
+                                <li>Linear & Multilinear Algebra</li>
+                                <li>Discrete Mathematics</li>
+                                <li>Probability & Statistics</li>
+                                <li>Numerical Methods</li>
+                                <li>Mathematical Logic</li>
+                            </ul>
+                        </div>
+                        <div class="structure-card">
+                            <div class="structure-icon">💻</div>
+                            <h4>Computer Science (35%)</h4>
+                            <ul>
+                                <li>Programming Fundamentals (C++, Python)</li>
+                                <li>Data Structures & Algorithms</li>
+                                <li>Object-Oriented Programming</li>
+                                <li>Database Management Systems</li>
+                                <li>Software Engineering Principles</li>
+                                <li>Web Development Basics</li>
+                            </ul>
+                        </div>
+                        <div class="structure-card">
+                            <div class="structure-icon">⚛️</div>
+                            <h4>Physics (25%)</h4>
+                            <ul>
+                                <li>Classical Mechanics</li>
+                                <li>Thermodynamics</li>
+                                <li>Electromagnetism</li>
+                                <li>Quantum Physics Basics</li>
+                                <li>Optics & Wave Theory</li>
+                                <li>Modern Physics Applications</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="advantages-section">
+                    <h3 class="detail-title">🌟 Key Advantages of MIP</h3>
+                    <div class="advantages-grid">
+                        <div class="advantage-card">
+                            <div class="advantage-icon">🎯</div>
+                            <h4>Elite Preparation</h4>
+                            <p>Direct pathway to Morocco's top engineering schools (ENSAM, EMI, INPT) and international universities</p>
+                        </div>
+                        <div class="advantage-card">
+                            <div class="advantage-icon">🧠</div>
+                            <h4>Interdisciplinary Thinking</h4>
+                            <p>Develops analytical skills by connecting mathematics, computer science, and physics concepts</p>
+                        </div>
+                        <div class="advantage-card">
+                            <div class="advantage-icon">💼</div>
+                            <h4>Industry Relevance</h4>
+                            <p>Curriculum aligned with modern tech industry needs and emerging technologies</p>
+                        </div>
+                        <div class="advantage-card">
+                            <div class="advantage-icon">🌍</div>
+                            <h4>Global Recognition</h4>
+                            <p>Internationally recognized program opening doors to worldwide opportunities</p>
+                        </div>
+                        <div class="advantage-card">
+                            <div class="advantage-icon">🤝</div>
+                            <h4>Network Building</h4>
+                            <p>Connect with Morocco's future tech leaders and innovators</p>
+                        </div>
+                        <div class="advantage-card">
+                            <div class="advantage-icon">🚀</div>
+                            <h4>Innovation Focus</h4>
+                            <p>Emphasis on research, problem-solving, and creative thinking</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-paths">
+                    <h3 class="detail-title">🚀 Career Opportunities</h3>
+                    <div class="paths-grid">
+                        <div class="path-category">
+                            <h4>🏭 Engineering Schools</h4>
+                            <div class="path-list">
+                                <div class="path-item">
+                                    <strong>Software Engineering</strong>
+                                    <span>Full-stack development, mobile apps, system architecture</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>Data Science & AI</strong>
+                                    <span>Machine learning, big data analytics, artificial intelligence</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>Cybersecurity</strong>
+                                    <span>Network security, ethical hacking, digital forensics</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>Telecommunications</strong>
+                                    <span>Network engineering, 5G technology, IoT systems</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="path-category">
+                            <h4>🔬 Research & Academia</h4>
+                            <div class="path-list">
+                                <div class="path-item">
+                                    <strong>Applied Mathematics</strong>
+                                    <span>Mathematical modeling, computational mathematics</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>Computer Science Research</strong>
+                                    <span>Algorithm development, theoretical computer science</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>Physics & Engineering</strong>
+                                    <span>Quantum computing, materials science, renewable energy</span>
+                                </div>
+                                <div class="path-item">
+                                    <strong>International Programs</strong>
+                                    <span>PhD programs in Europe, North America, and Asia</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mip-stats">
+                    <h3 class="detail-title">📊 Program Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">95%</div>
+                            <div class="stat-label">Engineering School Admission Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Years Intensive Training</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">30+</div>
+                            <div class="stat-label">Hours Weekly Study</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15:1</div>
+                            <div class="stat-label">Student-Teacher Ratio</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-number">03.</span>
+                    <span class="gradient-text">Skills & Tools</span>
+                </h2>
+                <p class="section-subtitle">Technologies and tools I work with</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="category-header">
+                        <div class="category-icon">💻</div>
+                        <h3>Programming Languages</h3>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-python"></i>
+                                <span class="skill-name">Python</span>
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-js-square"></i>
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-html5"></i>
+                                <span class="skill-name">HTML5</span>
+                                <span class="skill-percentage">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-css3-alt"></i>
+                                <span class="skill-name">CSS3</span>
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-code"></i>
+                                <span class="skill-name">C++</span>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-java"></i>
+                                <span class="skill-name">Java</span>
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="category-header">
+                        <div class="category-icon">🛠️</div>
+                        <h3>Development Tools</h3>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-react"></i>
+                                <span class="skill-name">React</span>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-node-js"></i>
+                                <span class="skill-name">Node.js</span>
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-git-alt"></i>
+                                <span class="skill-name">Git/GitHub</span>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-code"></i>
+                                <span class="skill-name">VS Code</span>
+                                <span class="skill-percentage">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fab fa-linux"></i>
+                                <span class="skill-name">Linux</span>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-database"></i>
+                                <span class="skill-name">SQL</span>
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="category-header">
+                        <div class="category-icon">📊</div>
+                        <h3>Mathematics & Science</h3>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-calculator"></i>
+                                <span class="skill-name">MATLAB</span>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-square-root-alt"></i>
+                                <span class="skill-name">Mathematica</span>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-file-alt"></i>
+                                <span class="skill-name">LaTeX</span>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-chart-line"></i>
+                                <span class="skill-name">Statistics</span>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-brain"></i>
+                                <span class="skill-name">Algorithms</span>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <i class="fas fa-atom"></i>
+                                <span class="skill-name">Physics Modeling</span>
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-number">04.</span>
+                    <span class="gradient-text">Featured Projects</span>
+                </h2>
+                <p class="section-subtitle">Some things I've built</p>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card featured">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-piano"></i>
+                            <span>Virtual Piano</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://pxxelina.github.io/virtual-piano/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <button class="project-info-btn" onclick="openProjectModal()">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3>Virtual Piano</h3>
+                            <div class="project-badge">Featured</div>
+                        </div>
+                        <p class="project-description">
+                            An interactive web-based piano application that combines my love for music and programming. 
+                            Features realistic piano sounds, keyboard shortcuts, and a beautiful responsive design.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Web Audio API</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://pxxelina.github.io/virtual-piano/" target="_blank" class="btn btn-primary btn-sm">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Live Demo</span>
+                            </a>
+                            <a href="https://github.com/pxxelina/virtual-piano" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"></i>
+                                <span>Code</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-calculator"></i>
+                            <span>Math Solver</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Mathematical Calculator</h3>
+                        <p class="project-description">
+                            Advanced calculator for complex mathematical operations, supporting calculus, 
+                            linear algebra, and statistical functions.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">NumPy</span>
+                            <span class="tech-tag">Matplotlib</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Data Viz</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Data Visualization Tool</h3>
+                        <p class="project-description">
+                            Interactive dashboard for visualizing complex datasets with multiple chart types 
+                            and real-time data processing capabilities.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-number">05.</span>
+                    <span class="gradient-text">Get In Touch</span>
+                </h2>
+                <p class="section-subtitle">Let's create something amazing together</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-intro">
+                        <h3>Let's Connect! 💌</h3>
+                        <p>
+                            I'm always excited to connect with fellow developers, students, and dreamers! 
+                            Whether you want to discuss MIP, collaborate on a project, or just say hello, 
+                            I'd love to hear from you.
+                        </p>
+                    </div>
+                    
+                    <div class="contact-methods">
+                        <a href="mailto:linayassire00@gmail.com" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Email</h4>
+                                <span>linayassire00@gmail.com</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://instagram.com/lina_yassire" target="_blank" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Instagram</h4>
+                                <span>@lina_yassire</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://github.com/pxxelina" target="_blank" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>GitHub</h4>
+                                <span>pxxelina</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="availability">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Available for opportunities</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>Designed & Built with 💖 by Lina Yassire</p>
+                    <p class="footer-subtitle">MIP Student & Passionate Developer from Morocco</p>
+                </div>
+                <div class="footer-links">
+                    <a href="mailto:linayassire00@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://instagram.com/lina_yassire" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://github.com/pxxelina" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProjectModal()">&times;</span>
+            <div id="projectModalContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
-   
