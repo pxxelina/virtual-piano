@@ -38,6 +38,4 @@ Simply click on any piano key to play the corresponding note.
 ## 🚀 Installation
 
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/virtual-piano.git
-   cd virtual-piano
+2. **Run the `index.html` file on ur browser**

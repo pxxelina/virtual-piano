@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Piano</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
+
 <body>
-    <!-- Clean Background Elements -->
     <div class="background-container">
         <div class="floating-particles" id="floating-particles"></div>
         <div class="soft-waves"></div>
@@ -18,81 +20,40 @@
             <div class="decorative-line line-2"></div>
         </div>
     </div>
-    
-    <!-- Hearts container - always visible -->
     <div class="background-hearts-container" id="background-hearts-container"></div>
-    
-    <!-- Hearts container for playing animation -->
     <div class="playing-hearts-container" id="playing-hearts-container"></div>
-    
-    <div class="container">
+
+    <div id="app" class="container">
         <h1>Virtual Piano</h1>
         <div class="instructions">
             <p>Click on the keys or use your keyboard to play</p>
-            <p>First octave: A-L for white keys, W-I for black keys</p>
+            <p>First octave: A-L for white keys, R-O for black keys</p>
             <p>Second octave: Z-, for white keys, 1-6 for black keys</p>
-            <p>Third octave: Q-R for white keys, 7-8 for black keys</p>
+            <p>Third octave: Q-E for white keys, 7-8 for black keys</p>
         </div>
-        
         <div class="piano-container">
             <div class="piano">
-                <!-- First Octave - White keys -->
-                <div class="key white-key key-C" data-note="C" data-key="a">A</div>
-                <div class="key white-key key-D" data-note="D" data-key="s">S</div>
-                <div class="key white-key key-E" data-note="E" data-key="d">D</div>
-                <div class="key white-key key-F" data-note="F" data-key="f">F</div>
-                <div class="key white-key key-G" data-note="G" data-key="g">G</div>
-                <div class="key white-key key-A" data-note="A" data-key="h">H</div>
-                <div class="key white-key key-B" data-note="B" data-key="j">J</div>
-                
-                <!-- Second Octave - White keys -->
-                <div class="key white-key key-C2" data-note="C2" data-key="k">K</div>
-                <div class="key white-key key-D2" data-note="D2" data-key="l">L</div>
-                <div class="key white-key key-E2" data-note="E2" data-key="z">Z</div>
-                <div class="key white-key key-F2" data-note="F2" data-key="x">X</div>
-                <div class="key white-key key-G2" data-note="G2" data-key="c">C</div>
-                <div class="key white-key key-A2" data-note="A2" data-key="v">V</div>
-                <div class="key white-key key-B2" data-note="B2" data-key="b">B</div>
-                <div class="key white-key key-C3" data-note="C3" data-key="n">N</div>
-                <div class="key white-key key-D3" data-note="D3" data-key="m">M</div>
-                <div class="key white-key key-E3" data-note="E3" data-key=",">,</div>
-                
-                <!-- Third Octave - Additional White keys -->
-                <div class="key white-key key-F3" data-note="F3" data-key="q">Q</div>
-                <div class="key white-key key-G3" data-note="G3" data-key="w">W</div>
-                <div class="key white-key key-A3" data-note="A3" data-key="r">R</div>
-                
-                <!-- First Octave - Black keys -->
-                <div class="key black-key key-C#" data-note="C#" data-key="w">W</div>
-                <div class="key black-key key-D#" data-note="D#" data-key="e">E</div>
-                <div class="key black-key key-F#" data-note="F#" data-key="t">T</div>
-                <div class="key black-key key-G#" data-note="G#" data-key="y">Y</div>
-                <div class="key black-key key-A#" data-note="A#" data-key="u">U</div>
-                
-                <!-- Second Octave - Black keys -->
-                <div class="key black-key key-C#2" data-note="C#2" data-key="i">I</div>
-                <div class="key black-key key-D#2" data-note="D#2" data-key="1">1</div>
-                <div class="key black-key key-F#2" data-note="F#2" data-key="2">2</div>
-                <div class="key black-key key-G#2" data-note="G#2" data-key="3">3</div>
-                <div class="key black-key key-A#2" data-note="A#2" data-key="4">4</div>
-                <div class="key black-key key-C#3" data-note="C#3" data-key="5">5</div>
-                <div class="key black-key key-D#3" data-note="D#3" data-key="6">6</div>
-                
-                <!-- Third Octave - Black keys -->
-                <div class="key black-key key-F#3" data-note="F#3" data-key="7">7</div>
-                <div class="key black-key key-G#3" data-note="G#3" data-key="8">8</div>
+                <template v-for="key in pianoKeys" :key="key.dataNote">
+                    <div class="key" :class="[key.type + '-key', key.class, { active: activeNotes.has(key.dataNote) }]"
+                        :data-note="key.dataNote" :data-key="key.dataKey" @mousedown="playNote(key, $event)"
+                        @touchstart.prevent="playNote(key, $event)">{{ showLabels ? key.label : '' }}</div>
+                </template>
             </div>
         </div>
-        
         <div class="controls">
-            <button class="control-btn" id="toggle-labels">Toggle Labels</button>
-            <button class="control-btn" id="play-demo">Play Demo</button>
-            <button class="control-btn" id="toggle-hearts">Toggle Hearts</button>
+            <button class="control-btn" @click="toggleLabels">Toggle Labels</button>
+            <button class="control-btn" @click="playDemo">Play Demo</button>
+            <button class="control-btn" @click="toggleHearts">{{ heartsButtonText }}</button>
         </div>
-        
-        <div class="creator-credit">Created with ♡ by <span class="creator-name">Lina Yassire</span> © 2025</div>
+        <div class="creator-credit">
+            Created with ♡ by <span class="creator-name">Lina Yassire</span> © 2025 <br>
+            Re-engineered ♡ by <span style="cursor: pointer;" class="creator-name" onclick="window.location.href='https://kamal.aferiad.xyz/'">Aferiad Kamal</span> © 2025
+        </div>
     </div>
-    
+
+    <script>
+        const { createApp, ref, reactive, onMounted, computed } = Vue;
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
